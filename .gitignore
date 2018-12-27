@@ -194,4 +194,6 @@ fabric.properties
 .idea/httpRequests
 /matlab/filterdata
 /matlab/testdata
+/python/testdata
+/python/filterdata
 
