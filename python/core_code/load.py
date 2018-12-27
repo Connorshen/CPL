@@ -22,6 +22,7 @@ def get_testdata(digit_label):
     return np.array(data_ind), np.array(data)
 
 
+# type:"digit" or "test"
 def get_filterdata(digit_label, type):
     data_ind = []
     data = []
