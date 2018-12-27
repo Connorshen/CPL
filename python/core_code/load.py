@@ -3,6 +3,7 @@ import scipy.io as sio
 import numpy as np
 from PIL import Image
 import h5py
+from tqdm import tqdm
 
 
 def get_testdata(digit_label):
@@ -10,7 +11,7 @@ def get_testdata(digit_label):
     data_ind = []
     data = []
     i_label = 0
-    for label in digit_label:
+    for label in tqdm(digit_label):
         filename = os.path.join("../testdata", "test" + str(label) + ".mat")
         file_mat = sio.loadmat(filename)["D"]
         num_digits = file_mat.shape[0]
@@ -29,7 +30,7 @@ def get_filterdata(digit_label, type):
     data_ind = []
     data = []
     i_label = 0
-    for label in digit_label:
+    for label in tqdm(digit_label):
         filename = os.path.join("../filterdata", type + str(label) + ".mat")
         file_mat = h5py.File(filename)["D_filtered"]
         file_mat = np.array(np.transpose(file_mat))
@@ -55,4 +56,5 @@ if __name__ == '__main__':
     test_ind, test_data = get_testdata([i for i in range(10)])
     # show_img(test_data[0])
 
-    filter_ind, filter_data = get_filterdata([i for i in range(10)], "digit")
+    filter_train_ind, filter_train_data = get_filterdata([i for i in range(10)], "digit")
+    filter_test_ind, filter_test_data = get_filterdata([i for i in range(10)], "test")
