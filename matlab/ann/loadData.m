@@ -10,5 +10,6 @@ perm = randperm(60000,20);
 for i = 1:20
     %»æÖÆ×ÓÍ¼
     subplot(4,5,i);
-    imshow(train_imgs(:,:,perm(i)));
+    img = reshape(train_imgs(perm(i),:),28,28,1);
+    imshow(img);
 end
