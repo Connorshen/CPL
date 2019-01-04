@@ -15,7 +15,7 @@ end
 
 labelCount = countEachLabel(imds)
 img = readimage(imds,1);
-size(img)
+img_size = size(img)
 %每类750张图用来训练，250张用来验证
 numTrainFiles = 750;
 [imdsTrain,imdsValidation] = splitEachLabel(imds,numTrainFiles,'randomize');
