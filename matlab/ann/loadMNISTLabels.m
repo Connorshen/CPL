@@ -9,4 +9,5 @@ numLabels = fread(fp, 1, 'int32', 0, 'ieee-be');
 labels = fread(fp, inf, 'unsigned char'); 
 assert(size(labels,1) == numLabels, 'Mismatch in label count'); 
 fclose(fp); 
+labels = categorical(labels);
 end
