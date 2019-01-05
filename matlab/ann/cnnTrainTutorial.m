@@ -1,7 +1,6 @@
 %CNN官方教程
 clearvars
 %训练集路径
-clearvars
 [train_imgs,trian_labels,test_imgs,test_labels] = loadData();
 
 
