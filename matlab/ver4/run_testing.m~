@@ -30,10 +30,12 @@ for j = 1:num_digit_data
     end
     
     testing_result(j, :) = [ind_label, label, digit_decision, reward, prob_decision];
-    
     if mod(j,100) == 0
-        fprintf("rate of progress: %.2f%%\n",j/num_digit_data*100);
+        fprintf("rate of progress: %.2f",j/num_digit_data*100)
     end
+%     if reward == 0
+%         show_error_image(init_para, testing_result(j, :))
+%     end
 end
 end_time = toc;
 fprintf('testing result: accuracy = %.2f%% cost_time = %.2fs\n',mean(testing_result(:, 4)*100),end_time);

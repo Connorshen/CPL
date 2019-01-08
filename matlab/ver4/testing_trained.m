@@ -1,5 +1,6 @@
 
-clear all
+clearvars
+clc
 load('results_trained.mat', 'results')
 
 network_trained = results.network_trained;
