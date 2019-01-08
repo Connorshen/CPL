@@ -6,7 +6,7 @@ num_digit_data = size(ind_digit_data, 1);
 
 testing_result = zeros(num_digit_data, 5);
 
-disp('start testing...')
+disp('start testing')
 for j = 1:num_digit_data
     
     label = ind_digit_data(j, 1);
@@ -29,12 +29,12 @@ for j = 1:num_digit_data
     
     testing_result(j, :) = [ind_label, label, digit_decision, reward, prob_decision];
     
-    if reward == 0
-        show_error_image(init_para, testing_result(j, :))
-    end
+%     if reward == 0
+%         show_error_image(init_para, testing_result(j, :))
+%     end
 end
 
-disp('testing result ...');
-disp(mean(testing_result(:, 3:4)));
+fprintf('testing result: accuracy = %.2f%%\n',mean(testing_result(:, 4)*100));
+
     
     

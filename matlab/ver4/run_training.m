@@ -8,16 +8,16 @@ training_result = [];
 num_digit_data = size(ind_digit_data, 1);
 trials_round = init_para.trials_round;
 
+disp('start training')
 for i = 1:init_para.num_rounds
-    disp('th round training...')
-    disp(i)
+    fprintf('stat iteration %4d\n',i)
     num_trials = init_para.trials_round;
     % prepare training set for each round
     if i*trials_round > num_digit_data
         break;
     end
     ind_training_data = ind_digit_data((i*trials_round-trials_round)+1:i*trials_round, :);
-        
+    
     
     result_round = zeros(num_trials,4);
     
@@ -28,12 +28,12 @@ for i = 1:init_para.num_rounds
         
         input_CPL = network_init.weight_input_CPL * digit_img;
         output_CPL = set_activity_CPL(input_CPL, network_init.weight_recurrent_CPL, [init_para.numNeurons_CPL,...
-                                        init_para.numNeurons_cluster, init_para.flag_sparse, init_para.diff_th]);
-                                    
+            init_para.numNeurons_cluster, init_para.flag_sparse, init_para.diff_th]);
+        
         input_decision = network_init.weightFilter_CPL_decision * output_CPL;
         prob_list_decision = exp(input_decision*init_para.gain_decision)./sum(exp(input_decision*init_para.gain_decision));
         
-        [prob_decision, ind_decision] = max(prob_list_decision);  
+        [prob_decision, ind_decision] = max(prob_list_decision);
         digit_decision = ind_decision - 1;
         if digit_decision == label
             reward = 1;
@@ -42,14 +42,14 @@ for i = 1:init_para.num_rounds
         end
         
         % update the weights on the final layer
-
+        
         wm = network_init.weight_CPL_decision(ind_decision, :);  % which synapses will be updated
         num_wm = numel(wm);
         act_am = rand(1,num_wm)<wm;
         
         val_potential = output_CPL'.* act_am;
         val_depress = ~output_CPL'.* (rand(1,num_wm)<0.01);
-
+        
         if reward
             wm = wm + 0.1*(reward - prob_decision).*(val_potential-val_depress);
         else
@@ -59,16 +59,15 @@ for i = 1:init_para.num_rounds
         wm = max(wm, 0);
         
         network_init.weight_CPL_decision(ind_decision, :) = wm;
-
-        network_init.weightFilter_CPL_decision(ind_decision, :) = network_init.weight_CPL_decision(ind_decision, :)>init_para.synaptic_th; 
+        
+        network_init.weightFilter_CPL_decision(ind_decision, :) = network_init.weight_CPL_decision(ind_decision, :)>init_para.synaptic_th;
         
         % list results
         result_round(j, :) = [label, digit_decision, reward, prob_decision];
     end
-    disp('training result in a round...');
-    disp(mean(result_round(:, 3:4)));
+    fprintf('training result: accuracy = %.2f%%\n',mean(result_round(:, 4)*100));
     
-    training_result = [training_result; result_round];   
+    training_result = [training_result; result_round];
 end
 
 network_trained = network_init;
