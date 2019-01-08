@@ -20,7 +20,7 @@ for j = 1:num_digit_data
     prob_list_decision = exp(input_decision*init_para.gain_decision)./sum(exp(input_decision*init_para.gain_decision));
      
     [prob_decision, ind_decision] = max(prob_list_decision);  
-    digit_decision = ind_decision - 1;
+    digit_decision = init_para.digit_label(ind_decision);
     if digit_decision == label
         reward = 1;
     else

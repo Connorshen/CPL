@@ -1,6 +1,6 @@
 
 clear all
-load('results_trained_0_9_p98-35.mat', 'results')
+load('results_trained.mat', 'results')
 
 network_trained = results.network_trained;
 init_para = results.init_para;
