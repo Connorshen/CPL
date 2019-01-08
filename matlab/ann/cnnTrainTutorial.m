@@ -1,10 +1,10 @@
-%CNN官方教程
+%CNN tutorial
 clearvars
-%训练集路径
+%read data
 [train_imgs,trian_labels,test_imgs,test_labels] = loadData();
 
 
-%神经网络结构
+%network struct
 layers = [
     imageInputLayer([28 28 1])
     
@@ -27,7 +27,7 @@ layers = [
     fullyConnectedLayer(10)
     softmaxLayer
     classificationLayer];
-%配置超参数
+%train options
 options = trainingOptions('sgdm', ...
     'InitialLearnRate',0.01, ...
     'MaxEpochs',4, ...
@@ -36,10 +36,10 @@ options = trainingOptions('sgdm', ...
     'ValidationFrequency',100, ...
     'Verbose',true, ...
     'Plots','training-progress');
-%开始训练
+%start train
 net = trainNetwork(train_imgs,trian_labels,layers,options);
 
-%验证准确率
+%validate accuracy
 YPred = classify(net,test_imgs);
 YValidation = test_labels;
 
