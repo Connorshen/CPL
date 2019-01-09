@@ -1,4 +1,5 @@
 function testing_result = run_testing( network_trained, init_para)
+disp('start testing')
 % start time
 tic
 % get all training data set
@@ -7,7 +8,6 @@ disp('start loading data')
 num_digit_data = size(ind_digit_data, 1);
 testing_result = zeros(num_digit_data, 5);
 
-disp('start testing')
 for j = 1:num_digit_data
     
     label = ind_digit_data(j, 1);
@@ -31,7 +31,7 @@ for j = 1:num_digit_data
     testing_result(j, :) = [ind_label, label, digit_decision, reward, prob_decision];
     
     if mod(j,100) == 0
-        fprintf("rate of progress: %.2f%%\n",j/num_digit_data*100);
+        fprintf("progress: %.2f%%\n",j/num_digit_data*100);
     end
 end
 end_time = toc;

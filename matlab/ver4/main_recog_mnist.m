@@ -15,6 +15,7 @@ network_init = initial_network(init_para);
 
 testing_result = run_testing( network_trained, init_para);
 
+save_model(network_trained,init_para);
 % save model
 % if init_para.flag_saveresult
 %     results.network_trained = network_trained;

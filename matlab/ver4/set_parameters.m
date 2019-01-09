@@ -2,7 +2,7 @@
 
 function  init_para = set_parameters()
 
-init_para.num_rounds = 60;
+init_para.epoch = 1;
 init_para.trials_round = 1000;
 init_para.flag_herg_inputCPL = true;
 init_para.flag_sparse = true;
