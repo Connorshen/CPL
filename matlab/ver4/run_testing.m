@@ -5,7 +5,6 @@ tic
 disp('start loading data')
 [ind_digit_data, digit_data] = get_filterdata(init_para.digit_label, 'test');
 num_digit_data = size(ind_digit_data, 1);
-
 testing_result = zeros(num_digit_data, 5);
 
 disp('start testing')
