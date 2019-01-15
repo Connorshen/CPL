@@ -6,9 +6,5 @@ classdef init_params
         
         mehod = train_method.type_bp;
         
-        % for bp
-        middle_size = 5;
-        input_size = 2;
-        out_size = 2;
     end
 end

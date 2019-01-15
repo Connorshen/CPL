@@ -4,9 +4,9 @@ data = train_data();
 xs = data.xs;
 ys = data.ys;
 data_size = size(xs,1);
-middle_size = init_params.middle_size;
-input_size = init_params.input_size;
-out_size = init_params.out_size;
+middle_size = 10;
+input_size = 2;
+out_size = 2;
 learning_rate = init_params.learning_rate;
 
 w1 = randn(middle_size,input_size);
@@ -53,7 +53,7 @@ for i=1:init_params.epoch
             loss = -sum(label.*log(out));
             [~,id1] = max(h);
             [~,id2] = max(label);
-            fprintf('x = %d %d,predict = %d,label = %d,h = [%f,%f],loss = %.2f\n',x(1),x(2),id1-1,id2-1,h(1),h(2),loss);
+            fprintf('x = %d %d,predict = %d,label = %d,h = [%f,%f],loss = %.4f\n',x(1),x(2),id1-1,id2-1,h(1),h(2),loss);
             
             batch_loss(end+1)=loss;
             epoch_index = epoch_index+1;
