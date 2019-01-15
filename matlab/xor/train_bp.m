@@ -1,4 +1,5 @@
 function train_bp()
+clear all
 data = train_data();
 xs = data.xs;
 ys = data.ys;
@@ -6,14 +7,16 @@ data_size = size(xs,1);
 middle_size = init_params.middle_size;
 input_size = init_params.input_size;
 out_size = init_params.out_size;
+learning_rate = init_params.learning_rate;
 
 w1 = randn(middle_size,input_size);
 b1 = randn(middle_size,1);
 w2 = randn(out_size,middle_size);
 b2 = randn(out_size,1);
-iterations = zeros(data_size*init_params.epoch,1);
-all_loss = zeros(data_size*init_params.epoch,1);
+batchs = [];
+all_loss = [];
 train_index = 1;
+batch_index = 1;
 for i=1:init_params.epoch
     epoch_index = 1;
     while epoch_index<= data_size
@@ -23,38 +26,54 @@ for i=1:init_params.epoch
             batch_end = data_size;
         end
         batch_size = batch_end - epoch_index+1;
-        D_1 = zeros(size(w1));
-        D_2 = zeros(size(w2));
+        DW_1 = zeros(size(w1));
+        DW_2 = zeros(size(w2));
+        DB_1 = zeros(size(b1));
+        DB_2 = zeros(size(b2));
+        batch_loss = [];
         for j = epoch_index:batch_end
-            labels = ys(j,:)';
+            label = ys(j,:)';
             x = xs(j,:)';
             % forward
             a1 = x;
             z2 = w1*a1+b1;
             a2 = sigmoid(z2);
             z3 = w2*a2+b2;
-            a3 = sigmoid(z3);
-            a3 = softmax(a3);
+            %a3 = sigmoid(z3);
+            out = softmax(z3);
             % backward
-            h = a3;
-            deltaw_3 = h - labels;
+            h = out;
+            deltaw_3 = h - label;
             deltaw_2 = w2'*deltaw_3.*sigmoid_gradient(z2);
             
-            D_2 = D_2 + deltaw_3.*a2';
-            D_1 = D_1 + deltaw_2.*a1';
-            loss = -sum(labels.*log(a3))
+            DW_2 = DW_2 + deltaw_3.*a2';
+            DW_1 = DW_1 + deltaw_2.*a1';
+            DB_2 = DB_2 + deltaw_3;
+            DB_1 = DB_1 + deltaw_2;
+            loss = -sum(label.*log(out));
+            [~,id1] = max(h);
+            [~,id2] = max(label);
+            fprintf('x = %d %d,predict = %d,label = %d,h = [%f,%f],loss = %.2f\n',x(1),x(2),id1-1,id2-1,h(1),h(2),loss);
             
-            iterations(train_index)=train_index;
-            all_loss(train_index) = loss;
+            batch_loss(end+1)=loss;
             epoch_index = epoch_index+1;
             train_index = train_index+1;
         end
-        w1_grad = (1.0 / batch_size) * D_1;
-        w2_grad = (1.0 / batch_size) * D_2;
-        w1 = w1-w1_grad;
-        w2 = w2-w2_grad;
+        
+        w1_grad = (1.0 / batch_size) * DW_1;
+        w2_grad = (1.0 / batch_size) * DW_2;
+        b1_grad = (1.0 / batch_size) * DB_1;
+        b2_grad = (1.0 / batch_size) * DB_2;
+        w1 = w1-learning_rate*w1_grad;
+        w2 = w2-learning_rate*w2_grad;
+        b1 = b1-learning_rate*b1_grad;
+        b2 = b2-learning_rate*b2_grad;
+        
+        all_loss(end+1)=mean(batch_loss);
+        batchs(end+1)=batch_index;
+        batch_index = batch_index+1;
     end
 end
 figure
-plot(iterations,all_loss)
+plot(batchs',all_loss')
 end
