@@ -1,0 +1,19 @@
+classdef train_data
+    properties(Constant)
+        % input data
+        x = [0,0;0,1;1,0;1,1]
+        % label
+        y = [0;1;1;0]
+        
+    end
+    properties
+       data
+    end
+    methods
+        function obj=train_data()
+            obj.data = [train_data.x,train_data.y];
+            randIndex = randperm(size(obj.data,1));
+            obj.data = obj.data()
+        end
+    end
+end
