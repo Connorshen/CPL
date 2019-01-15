@@ -1,4 +1,3 @@
-function train_bp()
 clear all
 data = train_data();
 xs = data.xs;
@@ -76,4 +75,6 @@ for i=1:init_params.epoch
 end
 figure
 plot(batchs',all_loss')
-end
+title('batch loss')
+xlabel('batch')
+ylabel('loss')

@@ -1,1 +1,0 @@
-function train_cpl()
