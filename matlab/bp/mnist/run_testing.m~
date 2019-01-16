@@ -1,4 +1,0 @@
-function run_testing(test_imgs,test_labels)
-test_img_size = size(test_imgs,1);
-for i = 1:test_img_size
-end

@@ -1,6 +1,6 @@
 classdef init_params
     properties(Constant)
-        epoch = 100;
+        epoch = 1000;
         batch_size = 1000;
         learning_rate = 0.5;
         
