@@ -1,8 +1,0 @@
-[weights,biass,params,loss_all,batch_index_all]= run_training();
-
-relsut.init_params = params;
-relsut.weights = weights;
-relsut.biass = biass;
-save('train_reslut',res);
-figure
-plot(batch_index_all,loss_all);

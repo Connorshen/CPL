@@ -10,7 +10,7 @@ classdef init_params
         function params = init_params()
             params.epoch = 1000;
             params.batch_size = 4;
-            params.learning_rate = 0.8;
+            params.learning_rate = 0.1;
             % neuron of each layer
             neurons = [2 5 6 2];
             % activation of each layer
