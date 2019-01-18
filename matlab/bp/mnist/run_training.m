@@ -1,5 +1,5 @@
 function [weights,biass,params,loss_all,batch_index_all]= run_training()
-[train_imgs,trian_labels,~,~] = loadData();
+[train_imgs,trian_labels,test_imgs,test_labels] = loadData();
 params = init_params;
 xs = train_imgs;
 ys = trian_labels;
@@ -54,7 +54,8 @@ for i=1:params.epoch
             weights{j,1} = weights{j,1}-learning_rate*D_w{j,1}/batch_size;
             biass{j,1} = biass{j,1}-learning_rate*D_b{j,1}/batch_size;
         end
-        fprintf('bactch loss = %.2f batch_index = %d\n',mean(batch_loss),batch_index);
+        accuracy = run_testing(weights,biass,test_imgs,test_labels,params)*100;
+        fprintf('bactch loss = %.2f batch_index = %d accuracy = %.2f%%\n',mean(batch_loss),batch_index,accuracy);
         loss_all(end+1)=mean(batch_loss);
         batch_index_all(end+1) = batch_index;
         batch_index = batch_index+1;
