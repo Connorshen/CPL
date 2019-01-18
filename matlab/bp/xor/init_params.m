@@ -8,13 +8,13 @@ classdef init_params
     end
     methods
         function params = init_params()
-            params.epoch = 100;
+            params.epoch = 1000;
             params.batch_size = 4;
-            params.learning_rate = 0.5;
+            params.learning_rate = 0.8;
             % neuron of each layer
             neurons = [2 5 6 2];
             % activation of each layer
-            acts = [activation.none,activation.sigmoid,activation.sigmoid,activation.softmax];
+            acts = [activation.none,activation.relu,activation.relu,activation.softmax];
             % type of each layer
             t_layer = [layer.dense,layer.dense,layer.dense,layer.dense];
             %num of layer
