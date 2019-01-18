@@ -1,80 +1,56 @@
+function train()
 clear all
 data = train_data();
+params = init_params;
 xs = data.xs;
 ys = data.ys;
 data_size = size(xs,1);
-middle_size = 10;
-input_size = 2;
-out_size = 2;
-learning_rate = init_params.learning_rate;
+learning_rate = params.learning_rate;
+n_layer = params.n_layer;
+[weights,biass,a_all,z_all,act_types,D_w_init,D_b_init] = build_weight(params);
 
-w1 = randn(middle_size,input_size);
-b1 = randn(middle_size,1);
-w2 = randn(out_size,middle_size);
-b2 = randn(out_size,1);
-batchs = [];
-all_loss = [];
-train_index = 1;
-batch_index = 1;
-for i=1:init_params.epoch
+for i=1:params.epoch
     epoch_index = 1;
     while epoch_index<= data_size
         % get batch data
-        batch_end = epoch_index+init_params.batch_size;
+        batch_end = epoch_index+params.batch_size;
         if batch_end > data_size
             batch_end = data_size;
         end
-        batch_size = batch_end - epoch_index+1;
-        DW_1 = zeros(size(w1));
-        DW_2 = zeros(size(w2));
-        DB_1 = zeros(size(b1));
-        DB_2 = zeros(size(b2));
-        batch_loss = [];
-        for j = epoch_index:batch_end
-            label = ys(j,:)';
-            x = xs(j,:)';
+        batch_start = epoch_index;
+        batch_x = xs(batch_start:batch_end,:);
+        batch_y = ys(batch_start:batch_end,:);
+        batch_size = batch_end - batch_start+1;
+        D_w = D_w_init;
+        D_b = D_b_init;
+        batch_loss = zeros(batch_size,1);
+        for j = 1:batch_size
+            x = batch_x(j,:)';
+            y = batch_y(j,:)';
+
             % forward
-            a1 = x;
-            z2 = w1*a1+b1;
-            a2 = sigmoid(z2);
-            z3 = w2*a2+b2;
-            %a3 = sigmoid(z3);
-            out = softmax(z3);
+            z_all{1,1} = x;
+            a_all{1,1} = activate(z_all{1,1},act_types{1,1});
+            for k = 1:length(weights)
+                z_all{k+1,1} = weights{k,1}*a_all{k,1}+biass{k,1};
+                a_all{k+1,1} = activate(z_all{k+1,1},act_types{k+1,1});
+            end
+            
+            h = a_all{end,1};
+            batch_loss(j)= -sum(y.*log(h));
             % backward
-            h = out;
-            deltaw_3 = h - label;
-            deltaw_2 = w2'*deltaw_3.*sigmoid_gradient(z2);
-            
-            DW_2 = DW_2 + deltaw_3.*a2';
-            DW_1 = DW_1 + deltaw_2.*a1';
-            DB_2 = DB_2 + deltaw_3;
-            DB_1 = DB_1 + deltaw_2;
-            loss = -sum(label.*log(out));
-            [~,id1] = max(h);
-            [~,id2] = max(label);
-            fprintf('x = %d %d,predict = %d,label = %d,h = [%f,%f],loss = %.4f\n',x(1),x(2),id1-1,id2-1,h(1),h(2),loss);
-            
-            batch_loss(end+1)=loss;
-            epoch_index = epoch_index+1;
-            train_index = train_index+1;
+            delta = h - y;
+            D_w{end,1} = D_w{end,1}+delta*a_all{end-1,1}';
+            D_b{end,1} = D_b{end,1}+delta;
+            for k = length(weights)-1:-1:1
+                delta = weights{k+1,1}'*delta.*gradient(z_all{k+1,1},act_types{k+1,1});
+                D_w{k,1} = D_w{k,1}+delta* a_all{k,1}';
+                D_b{k,1} = D_b{k,1}+delta;
+            end
         end
-        
-        w1_grad = (1.0 / batch_size) * DW_1;
-        w2_grad = (1.0 / batch_size) * DW_2;
-        b1_grad = (1.0 / batch_size) * DB_1;
-        b2_grad = (1.0 / batch_size) * DB_2;
-        w1 = w1-learning_rate*w1_grad;
-        w2 = w2-learning_rate*w2_grad;
-        b1 = b1-learning_rate*b1_grad;
-        b2 = b2-learning_rate*b2_grad;
-        
-        all_loss(end+1)=mean(batch_loss);
-        batchs(end+1)=batch_index;
-        batch_index = batch_index+1;
+        for j = 1:length(weights)
+            weights{j,1} = weights{j,1}-learning_rate*D_w{j,1}/batch_size;
+            biass{j,1} = biass{j,1}-learning_rate*D_b{j,1}/batch_size;
+        end
     end
 end
-figure
-plot(batchs',all_loss')
-title('batch loss')
-xlabel('batch')
-ylabel('loss')
