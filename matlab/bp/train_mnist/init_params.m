@@ -11,7 +11,7 @@ classdef init_params
         function params = init_params()
             params.epoch = 100;
             params.batch_size = 2000;
-            params.learning_rate = 0.5;
+            params.learning_rate = 0.1;
             % it be used to compute momentum,beta is the discount of the before dw. eq:v_dW=βv_dW+(1-β)dW 
             params.beta = 0.9;
             % neuron of each layer

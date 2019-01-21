@@ -13,6 +13,8 @@ batch_index_all = [];
 batch_index = 1;
 for i=1:params.epoch
     data_index = 1;
+    D_w_before = D_w_init;
+    D_b_before = D_b_init;
     while data_index<= data_size
         % get batch data
         batch_end = data_index+params.batch_size;
@@ -25,6 +27,7 @@ for i=1:params.epoch
         batch_size = batch_end - batch_start+1;
         D_w = D_w_init;
         D_b = D_b_init;
+  
         batch_loss = zeros(batch_size,1);
         for j = 1:batch_size
             x = batch_x(j,:)';
@@ -51,12 +54,21 @@ for i=1:params.epoch
             end
             data_index = data_index+1;
         end 
-        for j = 1:length(weights)
+        % compute momentum
+        for j=1:size(D_w,1)
+            D_w{j,1} = D_w{j,1}+beta*D_w_before{j,1};
+            D_b{j,1} = D_b{j,1}+beta*D_b_before{j,1};
+        end
+        % update weights
+        for j = 1:size(weights,1)
             weights{j,1} = weights{j,1}-learning_rate*D_w{j,1}/batch_size;
             biass{j,1} = biass{j,1}-learning_rate*D_b{j,1}/batch_size;
         end
         accuracy = run_testing(weights,biass,test_imgs,test_labels,params)*100;
         fprintf('bactch loss = %.2f batch_index = %d accuracy = %.2f%%\n',mean(batch_loss),batch_index,accuracy);
+        
+        D_w_before = D_w;
+        D_b_before = D_b;
         loss_all(end+1)=mean(batch_loss);
         batch_index_all(end+1) = batch_index;
         batch_index = batch_index+1;
