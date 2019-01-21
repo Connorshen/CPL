@@ -5,6 +5,7 @@ xs = train_imgs;
 ys = trian_labels;
 data_size = size(xs,1);
 learning_rate = params.learning_rate;
+beta = params.beta;
 loss_all = [];
 batch_index_all = [];
 [weights,biass,a_all,z_all,act_types,D_w_init,D_b_init] = build_weight(params);
