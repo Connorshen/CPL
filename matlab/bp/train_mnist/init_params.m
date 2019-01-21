@@ -9,7 +9,7 @@ classdef init_params
     end
     methods
         function params = init_params()
-            params.epoch = 100;
+            params.epoch = 10;
             params.batch_size = 2000;
             params.learning_rate = 0.1;
             % it be used to compute momentum,beta is the discount of the before dw. eq:v_dW=βv_dW+(1-β)dW 
@@ -17,7 +17,7 @@ classdef init_params
             % neuron of each layer
             neurons = [784 20 10];
             % activation of each layer
-            acts = [activation.none,activation.sigmoid,activation.softmax];
+            acts = [activation.none,activation.relu,activation.softmax];
             % type of each layer
             t_layer = [layer.dense,layer.dense,layer.dense];
             %num of layer

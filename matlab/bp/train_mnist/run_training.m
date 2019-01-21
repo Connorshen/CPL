@@ -17,7 +17,7 @@ for i=1:params.epoch
     D_b_before = D_b_init;
     while data_index<= data_size
         % get batch data
-        batch_end = data_index+params.batch_size;
+        batch_end = data_index+params.batch_size-1;
         if batch_end > data_size
             batch_end = data_size;
         end
