@@ -1,9 +1,9 @@
 clearvars
 % hyperparameter
-epoch = 1;
+epoch = 500;
 batch_size = 2000;
 learning_rate = 0.1;
-neurons = [2560,10,10];
+neurons = [2560,100,10];
 acts = [activation.none,activation.sigmoid,activation.softmax];
 t_layer = [layer.dense,layer.dense,layer.dense];
 params = init_params(epoch,batch_size,learning_rate,neurons,acts,t_layer);
