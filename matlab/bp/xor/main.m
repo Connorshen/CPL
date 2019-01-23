@@ -1,4 +1,5 @@
 clearvars
+addpath(genpath('../core'))
 % hyperparameter
 epoch = 1000;
 batch_size = 4;
