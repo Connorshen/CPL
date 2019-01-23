@@ -9,8 +9,8 @@ classdef init_params
     end
     methods
         function params = init_params()
-            params.epoch = 1000;
-            params.batch_size = 200;
+            params.epoch = 1;
+            params.batch_size = 2000;
             params.learning_rate = 0.01;
             % it be used to compute momentum,beta is the discount of the before dw. eq:v_dW=βv_dW+(1-β)dW 
             params.beta = 0.9;
