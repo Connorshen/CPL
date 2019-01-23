@@ -1,9 +1,9 @@
-function accuracy = run_testing(weights,biass,test_imgs,test_labels,params)
+function accuracy = run_testing(weights,biass,test_datas,test_labels,params)
 [~,~,a_all,z_all,act_types,~,~] = build_weight(params);
 n_error = 0;
-test_img_length = length(test_imgs);
+test_img_length = length(test_datas);
 for i = 1:test_img_length
-    x = test_imgs(i,:)';
+    x = test_datas(i,:)';
     y = test_labels(i,:);
     
     % forward

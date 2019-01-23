@@ -8,18 +8,12 @@ classdef init_params
         layers
     end
     methods
-        function params = init_params()
-            params.epoch = 1;
-            params.batch_size = 2000;
-            params.learning_rate = 0.01;
+        function params = init_params(epoch,batch_size,learning_rate,neurons,acts,t_layer)
+            params.epoch = epoch;
+            params.batch_size = batch_size;
+            params.learning_rate = learning_rate;
             % it be used to compute momentum,beta is the discount of the before dw. eq:v_dW=βv_dW+(1-β)dW 
             params.beta = 0.9;
-            % neuron of each layer
-            neurons = [784 20 10];
-            % activation of each layer
-            acts = [activation.none,activation.sigmoid,activation.softmax];
-            % type of each layer
-            t_layer = [layer.dense,layer.dense,layer.dense];
             %num of layer
             params.n_layer = length(neurons);
             % combine layers to struct

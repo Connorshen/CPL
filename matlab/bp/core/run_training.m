@@ -1,6 +1,6 @@
-function [weights,biass,params,loss_all,batch_index_all]= run_training(train_imgs,trian_labels,test_imgs,test_labels,params)
-xs = train_imgs;
-ys = trian_labels;
+function [weights,biass,params,loss_all,batch_index_all]= run_training(train_datas,train_labels,test_datas,test_labels,params)
+xs = train_datas;
+ys = train_labels;
 data_size = size(xs,1);
 learning_rate = params.learning_rate;
 beta = params.beta;

@@ -1,4 +1,4 @@
-function [train_imgs,trian_labels,test_imgs,test_labels] = loadData()
+function [train_imgs,trian_labels,test_imgs,test_labels] = load_data()
 test_imgs = loadMNISTImages("../../mnist_data/t10k-images-idx3-ubyte");
 test_labels = loadMNISTLabels("../../mnist_data/t10k-labels-idx1-ubyte");
 train_imgs = loadMNISTImages("../../mnist_data/train-images-idx3-ubyte");
