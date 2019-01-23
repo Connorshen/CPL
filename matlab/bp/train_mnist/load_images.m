@@ -1,4 +1,4 @@
-function images = loadMNISTImages(filename)
+function images = load_images(filename)
 %loadMNISTImages returns a 28x28x[number of MNIST images] matrix containing 
 %the raw MNIST images 
 fp = fopen(filename, 'rb'); 

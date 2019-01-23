@@ -1,4 +1,4 @@
-function labels = loadMNISTLabels(filename) 
+function labels = load_labels(filename) 
 %loadMNISTLabels returns a [number of MNIST images]x1 matrix containing 
 %the labels for the MNIST images 
 fp = fopen(filename, 'rb'); 
