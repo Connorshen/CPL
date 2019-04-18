@@ -196,4 +196,6 @@ fabric.properties
 /matlab/testdata
 /python/testdata
 /python/filterdata
-
+/python/data/test_data.csv
+/python/data/train_data.csv
+.idea
