@@ -4,5 +4,6 @@
 @Author  : 比尔丶盖子
 @Email   : 914138410@qq.com
 """
-import numpy as np
-np.maximum()
+import cv2
+
+cv2.filter2D()
