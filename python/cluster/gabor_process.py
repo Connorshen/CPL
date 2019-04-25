@@ -19,7 +19,7 @@ test_data = pd.read_csv("../data/test_data.csv", dtype=np.float32)
 train_labels = train_data["target"]
 train_images = train_data.drop("target", axis=1).values.reshape(-1, 28, 28, 1) / 255
 test_labels = test_data["target"]
-test_images = test_data.drop("target", axis=1).values.reshape(-1, 28, 28, 1) / 255
+test_images = (test_data.drop("target", axis=1).values.reshape(-1, 28, 28, 1) / 255)[:500, :, :, :]
 
 
 def build_filters(kernel_size, sigma, lambd, theta, same=1):
@@ -47,6 +47,7 @@ layer2_filters = build_filters(kernel_size=[3, 5, 7, 9],
                                lambd=np.arange(2, LAYER_TWO_KERNEL_SIZE_NUM + 2),
                                theta=np.arange(0, np.pi, np.pi / KERNEL_DIRECTION_NUM),
                                same=LAYER_ONE_KERNEL_SIZE_NUM * KERNEL_DIRECTION_NUM)
+
 with tf.Session() as sess:
     # layer1 shape [-1,14,14,GABOR_KERNEL_SIZE_NUM*GABOR_KERNEL_DIRECTION_NUM]
     layer1_feature_map = []
@@ -55,6 +56,7 @@ with tf.Session() as sess:
         max_pool_map = tf.nn.max_pool(convolution_map, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
         layer1_feature_map.append(max_pool_map)
     layer1_feature_map = tf.concat(layer1_feature_map, -1)
+    layer1_feature_map = tf.nn.sigmoid(layer1_feature_map)
     #
     layer2_feature_map = []
     for flt in tqdm(layer2_filters):
@@ -62,5 +64,6 @@ with tf.Session() as sess:
         max_pool_map = tf.nn.max_pool(convolution_map, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
         layer2_feature_map.append(max_pool_map)
     layer2_feature_map = tf.concat(layer2_feature_map, -1)
+    layer2_feature_map = tf.nn.sigmoid(layer2_feature_map)
     layer_flatten = tf.layers.flatten(layer2_feature_map)
     print(layer_flatten.eval())
