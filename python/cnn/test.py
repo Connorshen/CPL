@@ -4,6 +4,17 @@
 @Author  : 比尔丶盖子
 @Email   : 914138410@qq.com
 """
-import cv2
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.optimizers import Adam
 
-cv2.filter2D()
+model = Sequential()
+model.add(Dense(
+    1024,
+    batch_input_shape=(None, 12544),
+    activation="relu",
+
+))
+model.add(Dense(10, activation="softmax"))
+adam = Adam(lr=1e-4)
+model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
