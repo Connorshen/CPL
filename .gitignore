@@ -200,4 +200,6 @@ fabric.properties
 /python/data/train_data.csv
 /python/data/train_data_gabor.csv
 /python/data/test_data_gabor.csv
+/python/data/test_data_czb.csv
+/python/data/train_data_czb.csv
 .idea
