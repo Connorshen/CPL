@@ -10,7 +10,7 @@ import pandas as pd
 from keras.layers import Dense, Dropout
 from keras.optimizers import Adam
 
-"""测试下gabor滤波之后的特征向量是否能通过全连接的形式训练得到较好的结果，20个epoch之后是98.7%"""
+"""测试下gabor滤波之后的特征向量是否能通过全连接的形式训练得到较好的结果"""
 
 train_data = pd.read_csv("../data/train_data_gabor.csv")
 train_labels = to_categorical(train_data["target"].values)
@@ -32,7 +32,7 @@ model.add(Dense(
     activation="softmax"
 ))
 model.compile(optimizer=Adam(lr=1e-3), loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(train_images, train_labels, epochs=5, batch_size=64)
+model.fit(train_images, train_labels, epochs=5, batch_size=32)
 loss, accuracy = model.evaluate(test_images, test_labels)
 print(loss)
 print(accuracy)
