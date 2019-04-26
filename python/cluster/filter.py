@@ -29,7 +29,7 @@ def build_filters(kernel_size, sigma, lambd, theta, channel=1):
     return filters
 
 
-layer1_filters = build_filters(kernel_size=np.arange(3, 3 + LAYER_TWO_KERNEL_SIZE_NUM * 2, 2),
+layer1_filters = build_filters(kernel_size=np.arange(3, 3 + LAYER_ONE_KERNEL_SIZE_NUM * 2, 2),
                                sigma=np.arange(2, LAYER_ONE_KERNEL_SIZE_NUM + 2),
                                lambd=np.arange(2, LAYER_ONE_KERNEL_SIZE_NUM + 2),
                                theta=np.arange(0, np.pi, np.pi / KERNEL_DIRECTION_NUM))

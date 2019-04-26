@@ -4,14 +4,16 @@
 @Author  : 比尔丶盖子
 @Email   : 914138410@qq.com
 """
-"""gabor滤波处理后并保存特征向量"""
+
 import pandas as pd
 import numpy as np
+from python.cluster.filter import layer2_filters
 from python.cluster.filter import layer1_filters
 from python.cluster.util import DataSet
 import tensorflow as tf
 from tqdm import tqdm
 
+"""gabor滤波处理后并保存特征向量"""
 BATCH_NUM = 10000
 
 
@@ -28,6 +30,14 @@ def gabor_process(dataset, type):
                                           padding='SAME')
             layer1_feature_map.append(max_pool_map)
         layer1_feature_map = tf.concat(layer1_feature_map, -1)
+        # # layer2 shape
+        # layer2_feature_map = []
+        # for flt in layer2_filters:
+        #     convolution_map = tf.nn.conv2d(layer1_feature_map, flt, strides=[1, 1, 1, 1], padding='SAME')
+        #     max_pool_map = tf.nn.max_pool(convolution_map, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1],
+        #                                   padding='SAME')
+        #     layer2_feature_map.append(max_pool_map)
+        # layer2_feature_map = tf.concat(layer2_feature_map, -1)
         layer_flatten = tf.layers.flatten(layer1_feature_map)
         for i in tqdm(range(int(data_len / BATCH_NUM))):
             images, labels = dataset.test_next_batch(
