@@ -198,4 +198,6 @@ fabric.properties
 /python/filterdata
 /python/data/test_data.csv
 /python/data/train_data.csv
+/python/data/train_data_gabor.csv
+/python/data/test_data_gabor.csv
 .idea
