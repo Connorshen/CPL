@@ -7,9 +7,8 @@
 
 import pandas as pd
 import numpy as np
-from python.cluster.filter import layer2_filters
-from python.cluster.filter import layer1_filters
-from python.cluster.util import DataSet
+from python.preprocess.filter import layer1_filters
+from python.preprocess.util import DataSet
 import tensorflow as tf
 from tqdm import tqdm
 
