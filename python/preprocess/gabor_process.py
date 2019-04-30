@@ -11,6 +11,7 @@ from python.preprocess.filter import layer1_filters
 from python.preprocess.util import DataSet
 import tensorflow as tf
 from tqdm import tqdm
+import pickle
 
 """gabor滤波处理后并保存特征向量"""
 BATCH_NUM = 10000
@@ -45,6 +46,9 @@ if __name__ == '__main__':
     dataset = DataSet()
     test_images = gabor_process(dataset, DataSet.TYPE_TEST)
     train_images = gabor_process(dataset, DataSet.TYPE_TRAIN)
+
+    data_info = {"test_images_shape": test_images.shape, "train_images_shape": train_images.shape}
+    pickle.dump(data_info, open("../data/data_info.pickle", "wb"))
 
     train_csv = pd.DataFrame(train_images)
     train_csv["target"] = dataset.train_labels
